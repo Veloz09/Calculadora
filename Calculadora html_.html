@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡A Multiplicar Jugando!</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #337ab7;
+            margin-bottom: 20px;
+        }
+
+        .ejercicio {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: #5cb85c;
+        }
+
+        .ejercicio span {
+            font-weight: bold;
+            color: #d9534f;
+        }
+
+        input[type="number"] {
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+            width: 80px;
+            text-align: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            background-color: #5bc0de;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #46b8da;
+        }
+
+        .resultado {
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .correcto {
+            color: green;
+        }
+
+        .incorrecto {
+            color: red;
+        }
+
+        .personaje {
+            font-size: 2em;
+            margin-bottom: 10px;
+            color: #f0ad4e;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>¡Aprende las Tablas con el Conejito Saltarín! 🐰</h1>
+        <div class="personaje">🐇</div>
+        <div class="ejercicio">
+            ¿Cuántas zanahorias hay si tenemos <span>5</span> grupos de <span>3</span> zanahorias cada uno?
+        </div>
+        <div id="pregunta"></div>
+        <input type="number" id="respuesta">
+        <button onclick="verificarRespuesta()">¡Comprobar!</button>
+        <div id="resultado" class="resultado"></div>
+    </div>
+
+    <script>
+        let numero1;
+        let numero2;
+        let respuestaCorrecta;
+
+        function generarPregunta() {
+            numero1 = Math.floor(Math.random() * 10) + 1; // Números del 1 al 10
+            numero2 = Math.floor(Math.random() * 10) + 1; // Números del 1 al 10
+            respuestaCorrecta = numero1 * numero2;
+
+            const preguntaDiv = document.getElementById('pregunta');
+            preguntaDiv.textContent = `¿Cuánto es ${numero1} x ${numero2}?`;
+
+            const ejemploDiv = document.querySelector('.ejercicio');
+            const objeto = obtenerObjetoDivertido();
+            ejemploDiv.innerHTML = `Imagina que tienes <span>${numero1}</span> amigos y cada uno tiene <span>${numero2}</span> ${objeto}s. ¿Cuántos ${objeto}s hay en total?`;
+
+            document.getElementById('respuesta').value = ''; // Limpiar la respuesta anterior
+            document.getElementById('resultado').textContent = ''; // Limpiar el resultado anterior
+        }
+
+        function obtenerObjetoDivertido() {
+            const objetos = ["manzanas", "plátanos", "globos", "flores", "estrellas", "coches", "pelotas", "casas", "pájaros", "libros"];
+            const indice = Math.floor(Math.random() * objetos.length);
+            return objetos[indice];
+        }
+
+        function verificarRespuesta() {
+            const respuestaUsuario = parseInt(document.getElementById('respuesta').value);
+            const resultadoDiv = document.getElementById('resultado');
+
+            if (!isNaN(respuestaUsuario)) {
+                if (respuestaUsuario === respuestaCorrecta) {
+                    resultadoDiv.textContent = "¡Correcto! 🎉";
+                    resultadoDiv.className = "resultado correcto";
+                    setTimeout(generarPregunta, 1500); // Generar nueva pregunta después de un segundo y medio
+                } else {
+                    resultadoDiv.textContent = `¡Inténtalo de nuevo! La respuesta correcta era ${respuestaCorrecta}. 😔`;
+                    resultadoDiv.className = "resultado incorrecto";
+                }
+            } else {
+                resultadoDiv.textContent = "Por favor, escribe un número.";
+                resultadoDiv.className = "resultado incorrecto";
+            }
+        }
+
+        // Generar la primera pregunta al cargar la página
+        generarPregunta();
+    </script>
+</body>
+</html>
